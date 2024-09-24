@@ -93,6 +93,8 @@ println("Estimated Logit coefficients: ", beta_hat_logit.minimizer)
 df.white = df.race .== 1
 logit_glm = glm(@formula(married ~ age + white + collgrad), df, Binomial(), LogitLink())
 println("Logit estimates using GLM: ", coef(logit_glm))
+
+#Question 5
 using Optim, DataFrames, CSV, HTTP, GLM, LinearAlgebra, FreqTables
 freqtable(df, :occupation) # note small number of obs in some occupations
 df = dropmissing(df, :occupation)
@@ -104,14 +106,6 @@ freqtable(df, :occupation) # problem solved
 
 X = [ones(size(df,1),1) df.age df.race.==1 df.collgrad.==1]
 y = df.occupation
-
-function mlogit(alpha, X, d)
-
-    # your turn
-
-    return loglike
-end
-
 # Load the data
 url = "https://raw.githubusercontent.com/OU-PhD-Econometrics/fall-2024/master/ProblemSets/PS1-julia-intro/nlsw88.csv"
 df = CSV.read(HTTP.get(url).body, DataFrame)
